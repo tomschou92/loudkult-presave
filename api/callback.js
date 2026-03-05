@@ -4,9 +4,9 @@ export default async function handler(req, res) {
   const code = req.query.code;
   const state = JSON.parse(Buffer.from(req.query.state, 'base64').toString('utf-8'));
 
-  const client_id = process.env.SPOTIFY_CLIENT_ID;
-  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-  const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+  const client_id = process.env.27d859e89c644ee983b1df2524c13218;
+  const client_secret = process.env.f4639ad7fe9a496c963415a16b2027fd;
+  const redirect_uri = process.env.https://loudkult-presave.vercel.app/api/callback;
 
   // Exchange code for access token
   const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
