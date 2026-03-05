@@ -1,6 +1,6 @@
 export default function handler(req, res) {
   const client_id = process.env.27d859e89c644ee983b1df2524c13218;
-  const redirect_uri = process.env.https://loudkult-presave.vercel.app/;
+  const redirect_uri = process.env.https://loudkult-presave.vercel.app/api/callback;
 
   const { type, id } = req.query; // track or playlist + ID
 
