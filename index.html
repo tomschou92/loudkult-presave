@@ -1,20 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Loudkult Pre-save</title>
+  <meta charset="UTF-8">
+  <title>LoudKult Pre-save</title>
+
+  <!-- META PIXEL -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1717286162315562'); 
+    fbq('track', 'PageView');
+  </script>
+
+  <!-- TIKTOK PIXEL -->
+  <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
+      ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias"];
+      ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++){ttq.setAndDefer(ttq,ttq.methods[i])}
+      ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<e.length;n++)ttq.push(e[n]);return e};
+      ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e].push(["load",e,n||{}]);var o=d.createElement("script");o.type="text/javascript";o.async=!0;o.src=i;var a=d.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+    }(window, document, 'ttq');
+    ttq.load('CB74PABC77UAK60PI4K0');
+    ttq.page();
+  </script>
+
+  <!-- SNAP PIXEL -->
+  <script type='text/javascript'>
+    (function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};
+    a.queue=[];var s='script';r=t.createElement(s);r.async=!0;
+    r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,
+    'https://sc-static.net/scevent.min.js');
+    snaptr('init','5e01265c-a195-428e-9c97-3b4f19a47f87');
+    snaptr('track','PAGE_VIEW');
+  </script>
 </head>
+<body>
+  <h1>LoudKult Pre-save</h1>
+  <p>Click below to pre-save your track/playlist:</p>
+  <button id="presave-btn">Pre-save</button>
 
-<body style="font-family:sans-serif;text-align:center;margin-top:100px;">
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const track = params.get('track');
+    const playlist = params.get('playlist');
+    const contentId = track || playlist;
 
-<h1>Pre-save on Spotify</h1>
+    if(!contentId) {
+      document.body.innerHTML += "<p style='color:red;'>No track or playlist ID in URL.</p>";
+    }
 
-<p>Save the track to your Spotify library when it releases.</p>
+    document.getElementById('presave-btn').addEventListener('click', () => {
+      if(!contentId) return;
 
-<a href="/api/login">
-<button style="padding:15px 30px;font-size:18px;">
-Pre-save on Spotify
-</button>
-</a>
+      // Tracking events
+      if(typeof fbq !== "undefined") fbq('track', 'ViewContent', {content_id: contentId});
+      if(typeof ttq !== "undefined") ttq.track('ViewContent', {content_id: contentId});
+      if(typeof snaptr !== "undefined") snaptr('track','VIEW_CONTENT');
 
+      // Send to backend login with track/playlist as query
+      const type = track ? 'track' : 'playlist';
+      window.location.href = `/api/login?type=${type}&id=${contentId}`;
+    });
+  </script>
 </body>
 </html>
